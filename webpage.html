@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediMate - Medicine Reminder</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #fffbf0;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #ff85a2;
+            color: white;
+            text-align: center;
+            padding: 1em 0;
+            font-size: 2em;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+        }
+
+        .reminder-container {
+            background-color: #fffaf0;
+            border-radius: 20px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 320px;
+            text-align: center;
+            border: 2px dashed #ff85a2;
+        }
+
+        h1, h2 {
+            margin: 0 0 20px;
+            color: #ff6f91;
+        }
+
+        input[type="text"], input[type="time"] {
+            width: 90%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #ffb3c6;
+            border-radius: 10px;
+            background-color: #fff0f5;
+        }
+
+        button {
+            background-color: #ff85a2;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            background-color: #ff6f91;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #ffe4e1;
+            margin: 10px 0;
+            padding: 12px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .delete-btn {
+            background-color: #ff6f91;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .delete-btn:hover {
+            background-color: #ff4d6d;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        🌿 MediMate - Medicine Reminder 🌿
+    </header>
+
+    <main>
+        <div class="reminder-container">
+            <h2>💊 Add Medicine Reminder</h2>
+            <input type="text" id="medicineName" placeholder="🌿 Medicine Name">
+            <input type="time" id="reminderTime">
+            <button onclick="addReminder()">🔔 Add Reminder</button>
+
+            <h2>📓 Your Reminders</h2>
+            <ul id="reminderList"></ul>
+        </div>
+    </main>
+
+    <audio id="reminderSound" src="https://www.soundjay.com/phone/telephone-ring-03a.mp3" preload="auto" loop></audio>
+
+    <script>
+        function addReminder() {
+            const medicineName = document.getElementById('medicineName').value;
+            const reminderTime = document.getElementById('reminderTime').value;
+
+            if (medicineName && reminderTime) {
+                const reminderList = document.getElementById('reminderList');
+
+                const listItem = document.createElement('li');
+                const textSpan = document.createElement('span');
+                textSpan.textContent = `${medicineName} at ${reminderTime}`;
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = '🔹 Delete';
+                deleteBtn.className = 'delete-btn';
+                deleteBtn.onclick = () => reminderList.removeChild(listItem);
+
+                listItem.appendChild(textSpan);
+                listItem.appendChild(deleteBtn);
+                reminderList.appendChild(listItem);
+
+                document.getElementById('medicineName').value = '';
+                document.getElementById('reminderTime').value = '';
+
+                scheduleReminder(medicineName, reminderTime);
+            } else {
+                alert('🚫 Please enter both medicine name and time.');
+            }
+        }
+
+        function scheduleReminder(medicine, time) {
+            const now = new Date();
+            const [hour, minute] = time.split(':');
+            const reminderTime = new Date();
+            reminderTime.setHours(hour, minute, 0, 0);
+
+            if (reminderTime < now) {
+                reminderTime.setDate(reminderTime.getDate() + 1);
+            }
+
+            const timeToReminder = reminderTime - now;
+
+            setTimeout(() => {
+                const sound = document.getElementById('reminderSound');
+                sound.play();
+
+                const stopReminder = () => {
+                    sound.pause();
+                    sound.currentTime = 0;
+                    document.removeEventListener('click', stopReminder);
+                };
+
+                alert(`🔔 Time to take your medicine: ${medicine}`);
+                document.addEventListener('click', stopReminder);
+            }, timeToReminder);
+        }
+    </script>
+</body>
+</html>
