@@ -1,27 +1,27 @@
 # 🌿 MediMate - Medicine Reminder 💊
 
-![MediMate Logo](https://your-image-url.com/logo.png)  
-*A simple and user-friendly medicine reminder to help you stay on track with your medications.*
+*A simple and user-friendly medicine reminder app to help you stay on track with your medications.*
 
 ## 🚀 Features
-✅ Add and manage medicine reminders easily  
+✅ Add and manage medicine reminders  
 ✅ Receive alerts with sound notifications  
-✅ Simple and intuitive UI  
-✅ Responsive design for mobile and desktop  
+✅ Profile management for user details  
 ✅ Secure login system  
+✅ Responsive design  
 
 ## 📸 Demo
 ![MediMate Demo](https://your-image-url.com/demo.gif)  
 
 ## 🛠️ Installation
-To set up MediMate locally, follow these steps:
-
 ```bash
-# Clone the repository
 git clone https://github.com/yourusername/MediMate.git
-
-# Navigate to project directory
 cd MediMate
-
-# Open the HTML file in your browser
 start webpage.html
+start profile.html
+start MediMate.html
+📂 MediMate
+│── 📄 webpage.html  # Medicine Reminder Page
+│── 📄 profile.html  # Profile Page
+│── 📄 MediMate.html  # Login Page
+│── 📄 styles.css  # Styling
+│── 📄 script.js  # JavaScript
